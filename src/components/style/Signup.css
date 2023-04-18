@@ -1,0 +1,9 @@
+input {
+  background-color: antiquewhite;
+}
+
+.error {
+  color: #d8000c;
+  background-color: #ffbaba;
+  overflow-x: hidden;
+}
