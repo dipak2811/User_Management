@@ -41,11 +41,11 @@ function Signup() {
         errors.photo = "Image size must be less than 2Mb";
       } else if (!values.name) {
         errors.name = "User Name Required";
-      } else if (!/(^[A-Za-z]{1,16})([ ]{0,1})([A-Za-z]{1,16})?([ ]{0,1})?([A-Za-z]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})/.test(values.name)) {
-        errors.name = "Invalid name";
+      } else if (!/^(?=.*\s)[a-zA-Z\s]{10,}$/.test(values.name)) {
+        errors.name = "Name length should be atleast 10 Characters";
       } else if (!values.email) {
         errors.email = "Email Required";
-      } else if (
+      } else if ( 
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
       ) {
         errors.email = "Invalid email address";
@@ -60,7 +60,7 @@ function Signup() {
           values.password
         )
       ) {
-        errors.password = "Invalid password";
+        errors.password = "Password should contain lowecase uppercase alphabets numbers and atleast 1 special character";
       } else if (!values.cpassword) {
         errors.cpassword = "Confirm Password Required";
       } else if (values.password !== values.cpassword) {
@@ -112,6 +112,7 @@ function Signup() {
               id="name"
               name="name"
               className="row w-100 py-1 gx-0"
+              placeholder="Enter Full Name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
