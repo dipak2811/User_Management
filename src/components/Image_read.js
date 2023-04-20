@@ -7,10 +7,10 @@ const Image_read = (props) => {
        fr.readAsDataURL(props.value);
        fr.onloadend=()=>{
             setimg(fr.result); 
-            // console.log(props);
             props.callbck(fr.result);        
     } 
     },[props.value])
+    console.log("Ir called");
     return (
         <div>
             {/* <img src={img} /> */}

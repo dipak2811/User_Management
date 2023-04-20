@@ -42,7 +42,7 @@ function Signup() {
       } else if (!values.name) {
         errors.name = "User Name Required";
       } else if (!/^(?=.*\s)[a-zA-Z\s]{10,}$/.test(values.name)) {
-        errors.name = "Name length should be atleast 10 Characters";
+        errors.name = "Name length should be atleast 10 Characters with First Name and Last Name";
       } else if (!values.email) {
         errors.email = "Email Required";
       } else if ( 
