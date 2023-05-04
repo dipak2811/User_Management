@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
-import photo1 from "../Assets/signup.jpg";
+import photo1 from "../assets/signup.jpg";
 import "./style/Signup.css";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { useCallback,useState } from "react";
-import Image_read from "./Image_read";
-import {add} from "../reducers/UserDetails";
+import { useCallback, useState } from "react";
+import ImageRead from "./ImageRead";
+import { add } from "../reducers/UserDetails";
 function Signup() {
-  const navigate=useNavigate();
-  useEffect(()=>{
-    if(localStorage.getItem("isLogin") === "true"){
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("isLogin") === "true") {
       navigate("/home");
     }
-  })
-  const dispatch=useDispatch();
-  const [userdata,setUserData] = useState({});
-  const callback = useCallback((url)=>{
-    setUserData({...userdata,img:url});
-  })
+  });
+  const dispatch = useDispatch();
+  const [userdata, setUserData] = useState({});
+  const callback = useCallback((url) => {
+    setUserData({ ...userdata, img: url });
+  });
   const formik = useFormik({
     initialValues: {
       photo: null,
@@ -33,8 +33,9 @@ function Signup() {
       if (!values.photo) {
         errors.photo = "Please select a photo";
       } else if (
-        !(values.photo.type === "image/png" ||
-        values.photo.type === "image/jpg")
+        !(
+          values.photo.type === "image/png" || values.photo.type === "image/jpg"
+        )
       ) {
         errors.photo = "Image type must be png or jpg";
       } else if (values.photo.size > 1024 * 1024 * 2) {
@@ -42,10 +43,11 @@ function Signup() {
       } else if (!values.name) {
         errors.name = "User Name Required";
       } else if (!/^(?=.*\s)[a-zA-Z\s]{10,}$/.test(values.name)) {
-        errors.name = "Name length should be atleast 10 Characters";
+        errors.name =
+          "Name length should be atleast 10 Characters with First Name and Last Name";
       } else if (!values.email) {
         errors.email = "Email Required";
-      } else if ( 
+      } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
       ) {
         errors.email = "Invalid email address";
@@ -60,7 +62,8 @@ function Signup() {
           values.password
         )
       ) {
-        errors.password = "Password should contain lowecase uppercase alphabets numbers and atleast 1 special character";
+        errors.password =
+          "Password should contain lowecase uppercase alphabets numbers and atleast 1 special character";
       } else if (!values.cpassword) {
         errors.cpassword = "Confirm Password Required";
       } else if (values.password !== values.cpassword) {
@@ -68,17 +71,22 @@ function Signup() {
       }
       return errors;
     },
-    onSubmit:()=>{
-      if(formik.errors){
-        let data={...userdata,name:formik.values.name,email:formik.values.email,phone:formik.values.phone}
+    onSubmit: () => {
+      if (formik.errors) {
+        let data = {
+          ...userdata,
+          name: formik.values.name,
+          email: formik.values.email,
+          phone: formik.values.phone,
+        };
         dispatch(add(data));
         formik.resetForm();
         localStorage.setItem("isLogin", true);
         navigate("/home");
       }
-    }
+    },
   });
- 
+
   return (
     <div className="container">
       <div className="row">
@@ -102,10 +110,12 @@ function Signup() {
               }
               required
             />
-            
+
             {formik.errors.photo ? (
               <div className="error">{formik.errors.photo} </div>
-            ):(formik.values.photo?<Image_read value={formik.values.photo} callbck={callback} />:null)}
+            ) : formik.values.photo ? (
+              <ImageRead value={formik.values.photo} callbck={callback} />
+            ) : null}
             <label className="row py-3 gx-0">Name</label>
             <input
               type="text"
@@ -126,6 +136,7 @@ function Signup() {
               type="email"
               id="email"
               className="row w-100 py-1 gx-0"
+              placeholder="Enter Email Address"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -139,6 +150,7 @@ function Signup() {
               type="tel"
               id="phone"
               className="row w-100 py-1 gx-0"
+              placeholder="Enter Phone Number"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.phone}
@@ -152,6 +164,7 @@ function Signup() {
               type="password"
               id="password"
               className="row w-100 py-1 gx-0"
+              placeholder="Enter Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
@@ -165,6 +178,7 @@ function Signup() {
               type="password"
               id="cpassword"
               className="row w-100 py-1 gx-0"
+              placeholder="Enter Confirm Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.cpassword}
@@ -191,9 +205,6 @@ function Signup() {
         <div className="col-md-6 d-none d-md-block">
           <img src={photo1} alt="signup page" style={{ height: "50rem" }} />
         </div>
-        {/* <div className="col-7 d-md-block d-none">
-          <img src={photo1} alt="signup page" style={{ height: "50rem" }} />
-        </div> */}
       </div>
     </div>
   );
